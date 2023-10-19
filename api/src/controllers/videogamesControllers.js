@@ -1,5 +1,7 @@
 const {Videogame, Genres} = require("../db")
 const axios = require("axios")
+const apiKey = "key=3fd86bfcbc28470abf3860189f3f7384";
+
 
 const getVideogameBd = async ()=>{
     //busco en mi db
@@ -66,6 +68,68 @@ const infoTotal = async () =>{
 }
 
 
+// Query
+const getName = async (name) =>{
+    const nameRequest = await axios.get(`https://api.rawg.io/api/games?search=${name}&${apiKey}`)
+
+    try {
+       const search = await nameRequest.data.results.map(el => {
+        return {
+            id: el.id,
+            name: el.name,
+            image: el.background_image,
+            rating: el.rating,
+            platforms: el.platforms?.map(el => el.platform.name),
+            genres: el.genres?.map(el => el.name)
+
+        }
+       })
+       return search
+    } catch (error) {
+        console.error("Hay un error en getName")
+    }
+
+
+}
+
+
+// Params
+const getIdApi = async (id) => {
+    try {
+        const response = await axios.get(`https://api.rawg.io/api/games/${id}&${apiKey}`)
+        if (response){
+            const gameId = await response.data
+            const data = {
+                id: gameId.id,
+                name: gameId.name,
+                image: gameId.background_image,
+                rating: gameId.rating,
+                platforms: gameId.platforms?.map(el => el.platform.name),
+                genres: gameId.genres?.map(el => el.name)
+            }
+            return data
+        }
+    } catch (error) {
+            console.error("Hay un error en getIdApi o no se encontró el juego con ese ID")
+    }
+}
+
+
+const getIdDb = async (id) =>{
+    try {
+        return await Videogame.findByPk(id,{
+            include: [{
+                model: Genres,
+                attributes: ["name"],
+                through:{
+                    attributes: []
+                }
+            }]
+        })
+    } catch (error) {
+        console.error("Hubo un error en getInDb")
+    }
+}
 
 
 
@@ -73,6 +137,15 @@ const infoTotal = async () =>{
 
 
 
+module.exports ={
+    infoTotal,
+    apiAndDbId,
+    getIdApi,
+    getIdDb,
+    getName,
+    getVideogameBd,
+    getVideogamesApi
+}
 
 
 
