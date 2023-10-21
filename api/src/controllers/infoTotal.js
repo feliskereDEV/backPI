@@ -6,7 +6,7 @@ const getVideogamesApi = require ("../controllers/getVideogameApi")
     const dbData = await getVideogameBd();
     // ahora concateno mis dos constantes contenedoras de funciones
     const allVideogames = [...apiData, ...dbData]
-     return allVideogames; 
+    return allVideogames; 
  }
 
  module.exports = infoTotal;

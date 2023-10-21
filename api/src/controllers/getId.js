@@ -1,5 +1,5 @@
 const {Videogame, Genre} = require ("../db");
-const apiKey = "key=3fd86bfcbc28470abf3860189f3f7384";
+const apiKey = "3fd86bfcbc28470abf3860189f3f7384";
 const axios = require("axios");
 const getVideogameId = async (id) => {
     if (id > 0) {
@@ -35,7 +35,7 @@ const getVideogameId = async (id) => {
 
     if (!videoGameId) throw new Error(`No existe usuario con el id: "${id}.`);
         
-        const genresApi = videoGameId.Genres.map(g => g.name);
+        const genresApi = videoGameId.Genre.map(g => g.name);
         const dataLimpia = {
             id: videoGameId.id,
             name: videoGameId.name,
