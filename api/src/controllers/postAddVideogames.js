@@ -44,7 +44,7 @@ const createVideogame = async (videogame) => {
     const repetido = await Videogame.findOne({where: { name: name, released: released , genres: genres, platforms: platforms}})
     const generoExiste = await Videogame.findOne({where: { genres: genres}})
     if(!name || !description || !released || !rating || !platforms || !genres || !background_image) throw new Error("Faltan datos del videojuego")
-    if(!genres.length && generoExiste)                                                                throw new Error("El videojuego debe tener al menos un género")
+    if(!genres.length && generoExiste)                                                              throw new Error("El videojuego debe tener al menos un género")
     if(!platforms.length)                                                                           throw new Error("El videojuego debe tener al menos una plataforma")
     if(!name.length)                                                                                throw new Error("El nombre del videojuego no puede estar vacío")
     if(!description.length)                                                                         throw new Error("La descripción del videojuego no puede estar vacía")
