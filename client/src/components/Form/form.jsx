@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { getAllGenres } from '../../redux/actions/actions'
 import {useSelector} from "react-redux"
 import { validate } from './validate'
+import { NavLink } from "react-router-dom/cjs/react-router-dom"
 const Form = () => {
 
 // Cuando se monta mi componente hago peticion a /genre asi me trae los géneros
@@ -85,21 +86,22 @@ const Form = () => {
 
     const handleInputsGenre = (event) =>{
         const value = event.target.value;
-        if(!form.types.includes(value)){
+        if(!form.genres.includes(value)){
             setForm({
                 ...form,
                 genres: [...form.genres, value]
             });
-            setErrors(validate({...form, genres: [...form.types, value]}))
+            setErrors(validate({...form, genres: [...form.genres, value]}))
         } else{
             setForm({
                 ...form,
-                genres: [...form]
+                genres: [...form.genres]
             })
-            setErrors(validate({...form, types: [...form.types]}))
+            setErrors(validate({...form, genres: [...form.genres]}))
             event.target.value =""
         }
     }
+
 
 
     const submitForm = async (e) =>{
@@ -121,11 +123,11 @@ const Form = () => {
         <div className={styles.mainContainer}> 
              <form onSubmit={submitForm} className={styles.form}> 
                 <div className={styles.inputContainer}>
-                    <h1 className={styles.mainText}>Create a<span className={styles.spanText}>videogame!!!</span></h1>
+                    <h1 className={styles.textMain}>Create a <span className={styles.videogame}>videogame</span></h1>
                 
                 
                 <div className={styles.inputUnit}>
-                    <label className={styles.mainText}>name:</label>
+                    <label className={styles.mainText}>Name:</label>
                     <input
                     placeholder='Videogame name...'
                     onChange={handleInputs}
@@ -134,7 +136,7 @@ const Form = () => {
                     value={form.name}
                     name='name'
                     />
-                    <span className={styles.spans}>{errors.name}</span>
+                    <span className={styles.spans}>{errors?.name}</span>
                 </div>
                   
                  <div className={styles.inputUnit}>
@@ -146,7 +148,7 @@ const Form = () => {
                     value={form.image}
                     name='image'
                     />
-                    <span className={styles.spans}>{errors.image}</span>
+                    <span className={styles.spans}>{errors?.image}</span>
                 </div>
 
                 <div className={styles.inputUnit}>
@@ -158,7 +160,7 @@ const Form = () => {
                     value={form.text}
                     name='description'
                     />
-                    <span className={styles.spans}>{errors.description}</span>
+                    <span className={styles.spans}>{errors?.description}</span>
                 </div>
 
                 <div className={styles.inputUnit}>
@@ -168,7 +170,7 @@ const Form = () => {
                         <option >Battle.net</option>
                         <option >Epic Games</option>
                     </select>
-                    <span className={styles.spans}>{errors.platforms}</span>
+                    <span className={styles.spans}>{errors?.platforms}</span>
                 </div>
                 <div className={styles.inputUnit}>
                     <label onChange={handleInputs} className={styles.mainText}>Release date:</label>
@@ -182,21 +184,21 @@ const Form = () => {
 
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>Rating:</label>
-                    <label>1-10</label>
+                    
                     <input
                     onChange={handleInputs}
-                    className={styles.rating}
+                    className={styles.input}
                     type='number'
                     value={form.rating}
                     name='rating'
                     />
-                    <span className={styles.spans}>{errors.rating}</span>
+                    <span className={styles.spans}>{errors?.rating}</span>
                 </div>
                 
                 
                 <div className={styles.inputUnit}>
-                    <label className={styles.mainText}>Genres</label>
-                    <select name="types" onChange={handleInputsGenre}>
+                    <label className={styles.mainText}>Genres:</label>
+                    <select className={styles.input} name="genres" onChange={handleInputsGenre}>
                         <option value="" name="" hidden>
                             Select one to three genres
                         </option>
@@ -208,16 +210,23 @@ const Form = () => {
                     </select>
 
                 </div>
-                
-                
-                
+                <div>
                 <button
-                className={styles.button}
+                className={styles.submit}
                 type='submit'
                 > 
-                Submit videogame  
+                Create videogame  
                 </button>
-
+               </div>
+              
+                
+                <div className={styles.botones}>
+              <NavLink to="/home">
+                <button
+                className={styles.btn}
+                >🏠</button>
+                </NavLink>
+                </div>
                 </div>
             </form>
         </div>

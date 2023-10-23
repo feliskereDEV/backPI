@@ -19,4 +19,6 @@ export const validate = (data)=>{
     if (data.platforms === ""){
         errors.platforms ="You must select a platform"
     }
+
+    return errors
 }

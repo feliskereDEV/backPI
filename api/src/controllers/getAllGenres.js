@@ -13,8 +13,13 @@ const getAllGenres = async ()=>{
                 where: {name: g}
             })
         })
+
+            // 
+
+        console.log(genres)
         return genres;
     }
+    console.log(genresDb)
     return genresDb
 }
 

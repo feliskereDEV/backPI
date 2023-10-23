@@ -1,0 +1,83 @@
+.mainContainer {
+    background-image: url("../../assets/neonbackground.jpg");
+    background-size:cover;
+    height: 100vh;
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "mainText"
+      "teemo"
+      "button"; 
+    justify-items: center; 
+    align-items: center; 
+  }
+  .mainText {
+    justify-self: center; 
+    grid-area: mainText;
+    color: rgb(66, 12, 57);
+
+
+
+  }
+
+  .text{
+    font-family: 'Pixelify Sans', sans-serif;
+
+    font-size: 83px;
+    border-top: 7px solid #ff50e9;
+    border-bottom: 7px solid #ff50e9;border-right: 15px groove #d672ff;
+    border-left: 15px groove #d672ff;
+    background: rgba(174,115,226);
+  }
+  .img{
+    filter: sepia(63%) brightness(93%) hue-rotate(242deg);
+    -webkit-filter: sepia(63%) brightness(93%) hue-rotate(242deg);
+    -moz-filter: sepia(63%) brightness(93%) hue-rotate(242deg);
+  }
+  .teemo {
+
+    align-self: stretch; 
+    grid-area: teemo; 
+    border-radius: 200px 200px 200px 200px;
+    -webkit-border-radius: 200px 200px 200px 200px;
+    -moz-border-radius: 200px 200px 200px 200px;
+    border: 16px groove #fe50ff;
+
+  }
+  .button {
+
+    justify-self: center; 
+    grid-area: button; 
+
+  }
+
+  .btn{
+        font-family: 'Pixelify Sans', sans-serif;
+        font-size: 43px;
+        border-radius: 25px;
+        color: rgb(66, 12, 57);
+        width: 80px;
+        height: 80px;
+
+        background: rgba(240, 73, 217, 0.527);
+
+
+
+    }
+
+    .btn:hover{
+           background: linear-gradient(90deg, rgb(235, 38, 208) 0%, rgb(165, 45, 139) 100%);
+           transition-duration: 0.7s; 
+           color: white;
+           box-shadow: #ff50e9;
+           width: 100px;
+           height: 100px;
+           border-radius: 50px;
+
+
+
+
+
+    }
