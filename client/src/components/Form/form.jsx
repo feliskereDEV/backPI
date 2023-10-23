@@ -1,9 +1,9 @@
-import axios from "axios"
+
 import React, { useEffect } from 'react'
 import styles from "./form.module.css"
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getAllGenres, getPlatforms } from '../../redux/actions/actions'
+import { getAllGenres, getPlatforms, postGame } from '../../redux/actions/actions'
 import {useSelector} from "react-redux"
 import { validate } from './validate'
 import { NavLink } from "react-router-dom/cjs/react-router-dom"
@@ -31,7 +31,7 @@ useEffect(() => {
         name: "",
         image: "",
         description:"",
-        platforms:"",
+        platforms:[],
         releaseDate:"dd/mm/aaaa",
         rating:"0",
         genres:[]
@@ -92,16 +92,34 @@ useEffect(() => {
         setErrors(validate({...form, [e.target.name]: e.target.value}))
     }
 
-    const handleInputsGenre = (event) => {
-  const value = event.target.value;
-  if (!form.genres.includes(value)) {
-    setForm({
-      ...form,
-      genres: [...form.genres, value]
-    });
-    setErrors(validate({ ...form, genres: [...form.genres, value] }));
-  }
-};
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    
+    const removeGenre = (genreToRemove) => {
+        setSelectedGenres((prevGenres) => prevGenres.filter((genre) => genre !== genreToRemove));
+    };
+      
+    
+    const addGenreToList = () => {  
+        const selectedGenre = document.querySelector('select[name="genres"]').value;
+        if (selectedGenre !== "" && !selectedGenres.includes(selectedGenre) && selectedGenres.length < 3) {
+            setSelectedGenres((prevGenres) => [...prevGenres, selectedGenre]);
+        }
+        console.log(selectedGenres)
+    };
+
+    const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+
+    const removePlatform = (platformToRemove) => {
+        setSelectedPlatforms((prevPlatforms) => prevPlatforms.filter((platform)=> platform !== platformToRemove))
+    }
+
+    const addPlatformToList = () => {  
+        const selectedPlatform = document.querySelector('select[name="platforms"]').value;
+        if (selectedPlatform !== "" && !selectedPlatforms.includes(selectedPlatform) && selectedPlatforms.length < 5) {
+            setSelectedPlatforms((prevPlatforms) => [...prevPlatforms, selectedPlatform]);
+        }
+        console.log(selectedPlatforms)
+    };
 
 
     const submitForm = async (e) =>{
@@ -110,7 +128,8 @@ useEffect(() => {
             alert("Completa todos los campos")
         }
         if (formComplete === true){
-            await axios.post("/genre", form)
+            dispatch(postGame(form))
+            alert("JUEGO CREADO VIEJO")
             setCreated("Juego creado con éxito")
         }
         clearForm();
@@ -165,16 +184,24 @@ useEffect(() => {
 
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>Platforms:</label>
-                    <select className={styles.input} name="platforms" onChange={handleInputsGenre}>
+                    <select className={styles.input} name="platforms" onChange={addPlatformToList}>
                     <option value="" name="" hidden>
-                            Select one to three genres
+                        Select one to three genres
+                    </option>
+                    {platforms.map((platform, index) => (
+                        <option key={index} value={platform}>
+                            {platform}
                         </option>
-                        {platforms.map((platform, index) => (
-                            <option key={index} value={platforms}>
-                                {platform}
-                            </option>
+                    ))}
+                </select>
+                <ul>
+                        {selectedPlatforms.map(platform => (
+                            <li key={platform}>
+                            {platform}
+                            <button onClick={() => removePlatform(platform)}>Eliminar</button>
+                            </li>
                         ))}
-                    </select>
+                    </ul>
                     <span className={styles.spans}>{errors?.platforms}</span>
                 </div>
                 <div className={styles.inputUnit}>
@@ -203,16 +230,24 @@ useEffect(() => {
                 
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>Genres:</label>
-                    <select className={styles.input} name="genres" onChange={handleInputsGenre}>
+                    <select className={styles.input} name="genres" onChange={addGenreToList}>
                     <option value="" name="" hidden>
-                            Select one to three genres
+                        Select one to three genres
+                    </option>
+                    {genres.map((genre, index) => (
+                        <option key={index} value={genre}>
+                            {genre}
                         </option>
-                        {genres.map((genre, index) => (
-                            <option key={index} value={genre}>
-                                {genre}
-                            </option>
+                    ))}
+                </select>
+                <ul>
+                        {selectedGenres.map(genre => (
+                            <li key={genre}>
+                            {genre}
+                            <button onClick={() => removeGenre(genre)}>Eliminar</button>
+                            </li>
                         ))}
-                    </select>
+                    </ul>
 
                 </div>
                 <div>

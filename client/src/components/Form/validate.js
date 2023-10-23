@@ -16,9 +16,7 @@ export const validate = (data)=>{
         errors.description = "Description is required"
     }
 
-    if (data.platforms === ""){
-        errors.platforms ="You must select a platform"
-    }
+   
 
     return errors
 }

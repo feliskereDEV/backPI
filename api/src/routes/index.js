@@ -13,6 +13,7 @@ router.use("/videogames", videogamesRouter)
 router.use("/genre", genreRouter)
 router.use("/platforms", platformsRouter)
 
+
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
