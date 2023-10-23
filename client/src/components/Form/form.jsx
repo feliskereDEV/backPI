@@ -53,6 +53,7 @@ const Form = () => {
     const [formComplete, setFormComplete] = useState(false);
     
     const genres = useSelector((state)=> state.genres)
+    
 
     const [errors, setErrors] = useState({
         name: "",

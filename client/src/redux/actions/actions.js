@@ -7,7 +7,7 @@ import {
 const getAllGenres = () =>{
         return async (dispatch)=>{
             const apiData = await axios ("/genre")
-            const genre = apiData.apiData
+            const genre = apiData.data
             dispatch({
                 type: GET_ALL_GENRES,
                 payload: genre
