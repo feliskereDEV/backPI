@@ -1,24 +1,22 @@
-import React from 'react'
+import axios from "axios"
+import React, { useEffect } from 'react'
 import styles from "./form.module.css"
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getAllGenres } from '../../redux/actions/actions'
 import {useSelector} from "react-redux"
 import { validate } from './validate'
 const Form = () => {
 
+// Cuando se monta mi componente hago peticion a /genre asi me trae los géneros
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(getAllGenres())
+    },[dispatch])
 
-    // const allVideogames = useSelector((state) => state.videogames).sort((a,b) =>{
-        
-    //     // ordeno alfabeticamente mis juegos
 
-    //     if (a.name < b.name){
-    //         return -1;
-    //     }
-    //     if (a.name > b.name){
-    //         return 1;
-    //     }
-    //     return 0;
-    // });
-    
+
+ 
     //seteo mi form sin datos
     const [form, setForm] = useState({
         name: "",
@@ -27,10 +25,55 @@ const Form = () => {
         platforms:"",
         releaseDate:"dd/mm/aaaa",
         rating:"0",
-        videogames:[]
+        genres:[]
     })
 
-    const [errors, setErrors] = useState({})
+    useEffect(()=>{
+        const checkFormComplete = () => {
+            if(
+                !form.name          ||
+                !form.image         ||
+                !form.description   ||
+                !form.platforms     ||
+                !form.releaseDate   ||
+                !form.rating        ||
+                !form.genres )
+                {
+                setFormComplete(false)
+            } else{
+                setFormComplete(true)
+            }
+        }
+        checkFormComplete()
+    }, [form])
+
+    const [created, setCreated] = useState("");
+
+    const [formComplete, setFormComplete] = useState(false);
+    
+    const genres = useSelector((state)=> state.genres)
+
+    const [errors, setErrors] = useState({
+        name: "",
+        image: "",
+        description:"",
+        platforms:"",
+        releaseDate:"",
+        rating:"",
+        genres:"",
+    })
+
+    const clearForm = () => {
+        setForm({
+            name: "",
+            image: "",
+            description:"",
+            platforms:"",
+            releaseDate:"dd/mm/aaaa",
+            rating:"0",
+            genres:[]
+        })
+    }
 
     const handleInputs = (e) => {
         setForm({
@@ -40,10 +83,43 @@ const Form = () => {
         setErrors(validate({...form, [e.target.name]: e.target.value}))
     }
 
+    const handleInputsGenre = (event) =>{
+        const value = event.target.value;
+        if(!form.types.includes(value)){
+            setForm({
+                ...form,
+                genres: [...form.genres, value]
+            });
+            setErrors(validate({...form, genres: [...form.types, value]}))
+        } else{
+            setForm({
+                ...form,
+                genres: [...form]
+            })
+            setErrors(validate({...form, types: [...form.types]}))
+            event.target.value =""
+        }
+    }
+
+
+    const submitForm = async (e) =>{
+        e.preventDefault();
+        if(!formComplete){
+            alert("Completa todos los campos")
+        }
+        if (formComplete === true){
+            await axios.post("/genre", form)
+            setCreated("Juego creado con éxito")
+        }
+        clearForm();
+    }
+
+
+
   return (
     <div>
         <div className={styles.mainContainer}> 
-             <form className={styles.form}> {/*onClick submitForm, onChange en el input */}
+             <form onSubmit={submitForm} className={styles.form}> 
                 <div className={styles.inputContainer}>
                     <h1 className={styles.mainText}>Create a<span className={styles.spanText}>videogame!!!</span></h1>
                 
@@ -51,6 +127,7 @@ const Form = () => {
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>name:</label>
                     <input
+                    placeholder='Videogame name...'
                     onChange={handleInputs}
                     className={styles.input}
                     type='text'
@@ -115,6 +192,25 @@ const Form = () => {
                     />
                     <span className={styles.spans}>{errors.rating}</span>
                 </div>
+                
+                
+                <div className={styles.inputUnit}>
+                    <label className={styles.mainText}>Genres</label>
+                    <select name="types" onChange={handleInputsGenre}>
+                        <option value="" name="" hidden>
+                            Select one to three genres
+                        </option>
+                            {
+                                genres?.map(genre => (
+                                    <option key={genre?.id} name = {genre?.name} value = {genre?.id}>{genre?.name}</option>
+                                ))
+                            }
+                    </select>
+
+                </div>
+                
+                
+                
                 <button
                 className={styles.button}
                 type='submit'
