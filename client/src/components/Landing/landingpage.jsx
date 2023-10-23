@@ -16,11 +16,11 @@ const landing = () => {
        <div className={styles.mainContainer}>
             <img className={styles.logo} src={logo} alt="logo"></img>
             <img className={styles.hero} src={hero} alt="hero"></img>
-            <h1 className={styles.subtitle}><span className={styles.bold}>Videogames</span> hub</h1>
+            <h1 className={styles.subtitle}><span className={styles.bold}>VIDEOGAMES</span> hub</h1>
             <NavLink to="/home">
-            <button className={styles.button}>Start now</button>
+            <button className={styles.button}>START</button>
             </NavLink>
-            <h3 className={styles.text}>Only for <span className={styles.span}> good gamers</span></h3>
+            <h3 className={styles.text}>ONLY FOR <span className={styles.span}> GOOD GAMERS</span></h3>
         </div> 
     </div>
   )

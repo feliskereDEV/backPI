@@ -3,17 +3,25 @@ import React, { useEffect } from 'react'
 import styles from "./form.module.css"
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getAllGenres } from '../../redux/actions/actions'
+import { getAllGenres, getPlatforms } from '../../redux/actions/actions'
 import {useSelector} from "react-redux"
 import { validate } from './validate'
 import { NavLink } from "react-router-dom/cjs/react-router-dom"
 const Form = () => {
-
-// Cuando se monta mi componente hago peticion a /genre asi me trae los géneros
     const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(getAllGenres())
-    },[dispatch])
+    
+    const genres = useSelector((state)=> state.genres)
+
+    const platforms = useSelector((state)=> state.platforms)
+// Cuando se monta mi componente hago peticion a /genre asi me trae los géneros
+useEffect(() => {
+    if(platforms.length === 0){
+        dispatch(getPlatforms());
+    } 
+    if (genres.length === 0) {
+        dispatch(getAllGenres());
+    }
+},[dispatch])
 
 
 
@@ -52,7 +60,6 @@ const Form = () => {
 
     const [formComplete, setFormComplete] = useState(false);
     
-    const genres = useSelector((state)=> state.genres)
     
 
     const [errors, setErrors] = useState({
@@ -85,24 +92,16 @@ const Form = () => {
         setErrors(validate({...form, [e.target.name]: e.target.value}))
     }
 
-    const handleInputsGenre = (event) =>{
-        const value = event.target.value;
-        if(!form.genres.includes(value)){
-            setForm({
-                ...form,
-                genres: [...form.genres, value]
-            });
-            setErrors(validate({...form, genres: [...form.genres, value]}))
-        } else{
-            setForm({
-                ...form,
-                genres: [...form.genres]
-            })
-            setErrors(validate({...form, genres: [...form.genres]}))
-            event.target.value =""
-        }
-    }
-
+    const handleInputsGenre = (event) => {
+  const value = event.target.value;
+  if (!form.genres.includes(value)) {
+    setForm({
+      ...form,
+      genres: [...form.genres, value]
+    });
+    setErrors(validate({ ...form, genres: [...form.genres, value] }));
+  }
+};
 
 
     const submitForm = async (e) =>{
@@ -166,10 +165,15 @@ const Form = () => {
 
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>Platforms:</label>
-                    <select name='select' className={styles.input} onChange={handleInputs}>
-                        <option >Steam</option>
-                        <option >Battle.net</option>
-                        <option >Epic Games</option>
+                    <select className={styles.input} name="platforms" onChange={handleInputsGenre}>
+                    <option value="" name="" hidden>
+                            Select one to three genres
+                        </option>
+                        {platforms.map((platform, index) => (
+                            <option key={index} value={platforms}>
+                                {platform}
+                            </option>
+                        ))}
                     </select>
                     <span className={styles.spans}>{errors?.platforms}</span>
                 </div>
@@ -178,7 +182,7 @@ const Form = () => {
                     <input
                     className={styles.input}
                     type='date'
-                    value={form.text}
+                    value={form.date}
                     name='date'
                     />
                 </div>
@@ -200,14 +204,14 @@ const Form = () => {
                 <div className={styles.inputUnit}>
                     <label className={styles.mainText}>Genres:</label>
                     <select className={styles.input} name="genres" onChange={handleInputsGenre}>
-                        <option value="" name="" hidden>
+                    <option value="" name="" hidden>
                             Select one to three genres
                         </option>
-                            {
-                                genres?.map(genre => (
-                                    <option key={genre?.id} name = {genre?.name} value = {genre?.id}>{genre?.name}</option>
-                                ))
-                            }
+                        {genres.map((genre, index) => (
+                            <option key={index} value={genre}>
+                                {genre}
+                            </option>
+                        ))}
                     </select>
 
                 </div>

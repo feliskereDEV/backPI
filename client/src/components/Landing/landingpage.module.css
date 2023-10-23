@@ -77,6 +77,11 @@
     font-family: 'Pixelify Sans', sans-serif;
     color: white;
     font-size:50px;
+    border: 7px inset #d457de;
+border-left: 10px groove #9d50ff;
+background-color: #9c50ff7d;
+padding: 10px;  
+
 
 }
 .bold{
@@ -87,23 +92,21 @@
     grid-area: button;
     font-family: 'Pixelify Sans', sans-serif;
     font-size: 30px;
-    color: rgb(0, 0, 0);
+    color: rgb(116, 27, 100);
     width: 175px;
     height: 55px;
     border-radius: 25px;
-    background: rgb(0,240,255);
+    background: rgba(141, 49, 174, 0.63);
 
 
 
 }
 
 .button:hover{
-       background: linear-gradient(90deg, rgba(0,240,255,1) 0%, rgba(255,0,199,1) 100%);
-       transition-duration: 1.2s; 
-       color: white;
-       box-shadow: 0px 0px 15px 4px rgba(175,47,186,0.75);
--webkit-box-shadow: 0px 0px 15px 4px rgba(175,47,186,0.75);
--moz-box-shadow: 0px 0px 15px 4px rgba(175,47,186,0.75);
+       background: linear-gradient(90deg, rgb(221, 88, 201) 0%, rgb(189, 76, 217) 100%);
+       transition-duration: 0.7s; 
+       color: rgb(234, 4, 4);
+       
 
 }
 .text { 
