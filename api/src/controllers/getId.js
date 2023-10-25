@@ -42,7 +42,7 @@ const getVideogameId = async (id) => {
             platforms: videoGameId.platforms,
             image: videoGameId.image,
             rating: videoGameId.rating,
-            releaseDate: videoGameId.releaseDate,
+            released: videoGameId.released,
             genres: genresApi,
             description: videoGameId.description
         }

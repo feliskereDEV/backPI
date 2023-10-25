@@ -13,15 +13,15 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     platforms: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     image:{
       type: DataTypes.STRING,
       allowNull: false
     },
-    releaseDate: {
-      type: DataTypes.DATEONLY,
+    released: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     rating: {
@@ -30,7 +30,8 @@ module.exports = (sequelize) => {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
   });
 };
