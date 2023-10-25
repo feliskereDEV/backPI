@@ -294,7 +294,7 @@ useEffect(() => {
                 className={styles.submit}
                 type='submit'
                 > 
-                Create videogame  
+                CREATE VIDEOGAME  
                 </button>
               
                 

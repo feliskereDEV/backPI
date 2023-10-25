@@ -18,7 +18,7 @@ const landing = () => {
             <img className={styles.hero} src={hero} alt="hero"></img>
             <h1 className={styles.subtitle}><span className={styles.bold}>VIDEOGAMES</span> hub</h1>
             <NavLink to="/home">
-            <button className={styles.button}>START</button>
+            <button className={styles.button}>Start</button>
             </NavLink>
             <h3 className={styles.text}>ONLY FOR <span className={styles.span}> GOOD GAMERS</span></h3>
         </div> 
